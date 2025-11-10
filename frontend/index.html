@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医智能诊疗系统 - AI辅助诊疗平台</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <h1>中医智能诊疗系统</h1>
+            </div>
+            <div class="nav-info">
+                <span class="status-badge" id="systemStatus">系统检测中...</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 输入表单区 -->
+            <section class="input-section" id="inputSection">
+                <div class="section-header">
+                    <h2>患者信息录入</h2>
+                    <p class="subtitle">感谢longcat提供每日免费500万tokens额度，请珍惜使用</p>
+                </div>
+
+                <form id="patientForm" class="patient-form">
+                    <div class="form-group">
+                        <label for="diseaseName">
+                            <span class="label-icon">🏷️</span>
+                            现代病名
+                        </label>
+                        <input 
+                            type="text" 
+                            id="diseaseName" 
+                            name="diseaseName" 
+                            placeholder="例如：慢性胃炎、高血压、失眠等"
+                            required
+                        >
+                        <small class="form-hint">请输入西医诊断的疾病名称</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chiefComplaint">
+                            <span class="label-icon">💬</span>
+                            主诉
+                        </label>
+                        <textarea 
+                            id="chiefComplaint" 
+                            name="chiefComplaint" 
+                            rows="3"
+                            placeholder="例如：胃脘胀痛2年，加重1周，伴有嗳气、反酸"
+                            required
+                        ></textarea>
+                        <small class="form-hint">描述主要症状、病程及伴随症状</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fourExaminations">
+                            <span class="label-icon">🔍</span>
+                            四诊信息（望闻问切）
+                        </label>
+                        <textarea 
+                            id="fourExaminations" 
+                            name="fourExaminations" 
+                            rows="6"
+                            placeholder="望诊：面色、舌象、形体等&#10;闻诊：声音、气味等&#10;问诊：寒热、汗、饮食、二便、睡眠、月经等&#10;切诊：脉象等&#10;&#10;例如：&#10;面色萎黄，舌淡红苔薄白，体型偏瘦&#10;声音低微，口气略重&#10;畏寒，汗出不多，食欲不振，大便溏薄，睡眠尚可&#10;脉象沉细无力"
+                            required
+                        ></textarea>
+                        <small class="form-hint">详细描述望、闻、问、切四诊所得</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialConditions">
+                            <span class="label-icon">⚠️</span>
+                            特殊情况（选填）
+                        </label>
+                        <textarea 
+                            id="specialConditions" 
+                            name="specialConditions" 
+                            rows="2"
+                            placeholder="例如：妊娠、哺乳期、肝肾功能不全、药物过敏史等"
+                        ></textarea>
+                        <small class="form-hint">如有妊娠、肝肾功能不全等特殊情况请注明</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span class="btn-icon">🚀</span>
+                            开始AI诊疗分析
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <span class="btn-icon">🔄</span>
+                            重置表单
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- 进度显示区 -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <div class="section-header">
+                    <h2>AI诊疗进行中</h2>
+                    <p class="subtitle">多个智能体正在协同分析...请耐心等待5-10分钟</p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-item" id="progress1">
+                        <div class="progress-icon">🔍</div>
+                        <div class="progress-content">
+                            <h3>中医辨证分析</h3>
+                            <p>八纲、六经、卫气营血、脏腑辨证</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress2">
+                        <div class="progress-icon">📚</div>
+                        <div class="progress-content">
+                            <h3>古籍病案检索</h3>
+                            <p>汉唐至民国历代医案分析</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress3">
+                        <div class="progress-icon">🔬</div>
+                        <div class="progress-content">
+                            <h3>现代文献分析</h3>
+                            <p>CNKI核心期刊文献查询</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress4">
+                        <div class="progress-icon">💊</div>
+                        <div class="progress-content">
+                            <h3>经方大师开方</h3>
+                            <p>经方选择与剂量换算</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress5">
+                        <div class="progress-icon">⚕️</div>
+                        <div class="progress-content">
+                            <h3>药剂师审方</h3>
+                            <p>用药安全审核</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress6">
+                        <div class="progress-icon">🏃</div>
+                        <div class="progress-content">
+                            <h3>康复理疗方案</h3>
+                            <p>针灸、推拿、食疗建议</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-item" id="progress7">
+                        <div class="progress-icon">📄</div>
+                        <div class="progress-content">
+                            <h3>生成诊疗报告</h3>
+                            <p>整合分析结果</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 结果展示区 -->
+            <section class="result-section" id="resultSection" style="display: none;">
+                <div class="section-header">
+                    <h2>诊疗分析报告</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="toggleView('detail')">
+                            <span class="btn-icon">📊</span>
+                            详细数据
+                        </button>
+                        <button class="btn btn-secondary" onclick="toggleView('report')">
+                            <span class="btn-icon">📄</span>
+                            完整报告
+                        </button>
+                        <button class="btn btn-primary" onclick="exportReport()">
+                            <span class="btn-icon">💾</span>
+                            导出报告
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareReport()">
+                            <span class="btn-icon">🔗</span>
+                            分享
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 详细数据视图 -->
+                <div id="detailView" class="result-content">
+                    <div class="result-tabs">
+                        <button class="tab-btn active" onclick="switchTab('diagnosis')">中医辨证</button>
+                        <button class="tab-btn" onclick="switchTab('ancient')">古籍病案</button>
+                        <button class="tab-btn" onclick="switchTab('modern')">现代文献</button>
+                        <button class="tab-btn" onclick="switchTab('prescription')">处方用药</button>
+                        <button class="tab-btn" onclick="switchTab('review')">审方结果</button>
+                        <button class="tab-btn" onclick="switchTab('rehab')">康复理疗</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div id="diagnosis-tab" class="tab-pane active"></div>
+                        <div id="ancient-tab" class="tab-pane"></div>
+                        <div id="modern-tab" class="tab-pane"></div>
+                        <div id="prescription-tab" class="tab-pane"></div>
+                        <div id="review-tab" class="tab-pane"></div>
+                        <div id="rehab-tab" class="tab-pane"></div>
+                    </div>
+                </div>
+
+                <!-- 完整报告视图 -->
+                <div id="reportView" class="result-content" style="display: none;">
+                    <div class="report-container" id="finalReport"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 中医智能诊疗系统 | 你的朋友ZhangJian ws3101001@126.com | 仅供学习研究使用，不作为医疗诊断依据</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
