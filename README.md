@@ -558,6 +558,7 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ## 🙏 致谢
 
 - DeepSeek - 提供强大的 AI 能力
+- longcat - 提供免费额度
 - 中医经典 - 理论基础
 - 开源社区 - 技术支持
 
@@ -565,7 +566,7 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## 📧 联系方式
 
-如有问题或建议，欢迎提 Issue。
+如有问题或建议，欢迎提 Issue 或邮件至：ws3101001@126.com
 
 ---
 
@@ -573,7 +574,7 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 **⚕️ 传承中医智慧，拥抱 AI 未来 🤖**
 
-Made with ❤️ for TCM and AI
+Made with ❤️ for ZhangJian and AI
 
 </div>
 
