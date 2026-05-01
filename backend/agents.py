@@ -64,7 +64,7 @@ class TCMAgents:
     
     async def diagnosis_agent(self, patient_info: Dict[str, Any]) -> Dict[str, Any]:
         """Agent 1: 中医辨证"""
-        print("🔍 执行中医辨证分析...")
+        print("[1/7] 执行中医辨证分析...")
         await self._send_progress(1, "中医辨证分析", "processing", "正在进行八纲、六经、卫气营血、脏腑辨证...")
 
         prompt = self.prompts.diagnosis_agent(patient_info)
@@ -91,7 +91,7 @@ class TCMAgents:
     
     async def ancient_cases_agent(self, patient_info: Dict[str, Any], diagnosis_result: str) -> Dict[str, Any]:
         """Agent 2: 古籍病案分析"""
-        print("📚 查询古籍病案...")
+        print("[2/7] 查询古籍病案...")
         await self._send_progress(2, "古籍病案检索", "processing", "正在检索汉唐至民国历代医案...")
 
         prompt = self.prompts.ancient_cases_agent(patient_info, diagnosis_result)
@@ -117,7 +117,7 @@ class TCMAgents:
 
     async def modern_literature_agent(self, patient_info: Dict[str, Any], diagnosis_result: str) -> Dict[str, Any]:
         """Agent 3: 现代文献分析"""
-        print("🔬 分析现代文献...")
+        print("[3/7] 分析现代文献...")
         await self._send_progress(3, "现代文献分析", "processing", "正在分析CNKI核心期刊文献...")
 
         prompt = self.prompts.modern_literature_agent(patient_info, diagnosis_result)
@@ -143,7 +143,7 @@ class TCMAgents:
     
     async def prescription_master_agent(self, patient_info: Dict[str, Any], synthesis: str) -> Dict[str, Any]:
         """Agent 4: 经方大师"""
-        print("💊 经方大师开方...")
+        print("[4/7] 经方大师开方...")
         await self._send_progress(4, "经方大师开方", "processing", "正在选方配伍、计算剂量...")
 
         prompt = self.prompts.prescription_master_agent(patient_info, synthesis)
@@ -169,7 +169,7 @@ class TCMAgents:
 
     async def pharmacist_review_agent(self, prescription: str, patient_info: Dict[str, Any]) -> Dict[str, Any]:
         """Agent 5: 药剂师审方"""
-        print("⚕️ 药剂师审方...")
+        print("[5/7] 药剂师审方...")
         await self._send_progress(5, "药剂师审方", "processing", "正在审核十八反十九畏、妊娠禁忌...")
 
         prompt = self.prompts.pharmacist_review_agent(prescription, patient_info)
@@ -195,7 +195,7 @@ class TCMAgents:
 
     async def rehabilitation_agent(self, patient_info: Dict[str, Any], diagnosis: str) -> Dict[str, Any]:
         """Agent 6: 康复理疗"""
-        print("🏃 制定康复方案...")
+        print("[6/7] 制定康复方案...")
         await self._send_progress(6, "康复理疗方案", "processing", "正在制定针灸、推拿、食疗、气功方案...")
 
         prompt = self.prompts.rehabilitation_agent(patient_info, diagnosis)
@@ -221,7 +221,7 @@ class TCMAgents:
 
     async def report_generator_agent(self, all_results: Dict[str, Any]) -> str:
         """Agent 7: 报告生成"""
-        print("📄 生成诊疗报告...")
+        print("[7/7] 生成诊疗报告...")
         await self._send_progress(7, "生成诊疗报告", "processing", "正在整合所有分析结果...")
 
         prompt = self.prompts.report_generator_agent(all_results)

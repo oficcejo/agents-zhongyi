@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.rar
+*.zip
 .Python
 build/
 develop-eggs/
@@ -24,11 +26,15 @@ wheels/
 venv/
 env/
 ENV/
+ui/
 .venv
 
 # Environment Variables
 .env
 .env.local
+
+# SSL Private Keys
+ssl/key.pem
 
 # IDE
 .vscode/

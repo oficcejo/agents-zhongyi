@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI望诊问诊 - 中医智能诊疗系统</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/ai-diagnosis.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <h1>AI望诊问诊</h1>
+            </div>
+            <div class="nav-info">
+                <a href="/" class="nav-link">返回主页</a>
+                <span class="status-badge" id="systemStatus">系统检测中...</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- 步骤指示器 -->
+            <div class="step-indicator" id="stepIndicator">
+                <div class="step-item active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">望脸色</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">舌诊</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">问诊</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">综合确认</div>
+                </div>
+            </div>
+
+            <!-- Step 1: 望脸色 -->
+            <section class="diagnosis-step" id="step1">
+                <div class="step-header">
+                    <h2>望脸色</h2>
+                    <p class="subtitle">请在光线充足的环境下，面向摄像头拍摄面部照片</p>
+                </div>
+
+                <div class="camera-container">
+                    <div class="camera-viewport" id="faceCameraViewport">
+                        <video id="faceVideo" autoplay playsinline></video>
+                        <canvas id="faceCanvas" style="display:none;"></canvas>
+                        <img id="facePreview" style="display:none;" alt="面部照片预览">
+                        <div class="camera-guide face-guide">
+                            <div class="guide-outline"></div>
+                            <span>请将面部置于框内</span>
+                        </div>
+                    </div>
+
+                    <div class="camera-controls" id="faceCameraControls">
+                        <button class="btn btn-secondary" onclick="switchCamera('face')">
+                            <span class="btn-icon">🔄</span> 切换摄像头
+                        </button>
+                        <button class="btn btn-primary btn-capture" onclick="capturePhoto('face')">
+                            <span class="btn-icon">📸</span> 拍照
+                        </button>
+                    </div>
+
+                    <div class="camera-controls" id="facePreviewControls" style="display:none;">
+                        <button class="btn btn-secondary" onclick="retakePhoto('face')">
+                            <span class="btn-icon">🔄</span> 重拍
+                        </button>
+                        <button class="btn btn-primary" onclick="analyzePhoto('face')">
+                            <span class="btn-icon">🔍</span> 确认分析
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analysis-loading" id="faceLoading" style="display:none;">
+                    <div class="loading-spinner"></div>
+                    <p>正在分析面色，请稍候...</p>
+                </div>
+
+                <div class="analysis-result" id="faceResult" style="display:none;">
+                    <div class="result-card">
+                        <h3>望脸色分析结果</h3>
+                        <div class="result-content" id="faceResultContent"></div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn btn-primary" onclick="goToStep(2)">
+                            下一步：舌诊 <span class="btn-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2: 舌诊 -->
+            <section class="diagnosis-step" id="step2" style="display:none;">
+                <div class="step-header">
+                    <h2>舌诊</h2>
+                    <p class="subtitle">请张口伸舌，在自然光下拍摄舌头照片</p>
+                </div>
+
+                <div class="camera-container">
+                    <div class="camera-viewport" id="tongueCameraViewport">
+                        <video id="tongueVideo" autoplay playsinline></video>
+                        <canvas id="tongueCanvas" style="display:none;"></canvas>
+                        <img id="tonguePreview" style="display:none;" alt="舌头照片预览">
+                        <div class="camera-guide tongue-guide">
+                            <div class="guide-outline"></div>
+                            <span>请将舌头置于框内</span>
+                        </div>
+                    </div>
+
+                    <div class="camera-controls" id="tongueCameraControls">
+                        <button class="btn btn-secondary" onclick="switchCamera('tongue')">
+                            <span class="btn-icon">🔄</span> 切换摄像头
+                        </button>
+                        <button class="btn btn-primary btn-capture" onclick="capturePhoto('tongue')">
+                            <span class="btn-icon">📸</span> 拍照
+                        </button>
+                    </div>
+
+                    <div class="camera-controls" id="tonguePreviewControls" style="display:none;">
+                        <button class="btn btn-secondary" onclick="retakePhoto('tongue')">
+                            <span class="btn-icon">🔄</span> 重拍
+                        </button>
+                        <button class="btn btn-primary" onclick="analyzePhoto('tongue')">
+                            <span class="btn-icon">🔍</span> 确认分析
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analysis-loading" id="tongueLoading" style="display:none;">
+                    <div class="loading-spinner"></div>
+                    <p>正在分析舌象，请稍候...</p>
+                </div>
+
+                <div class="analysis-result" id="tongueResult" style="display:none;">
+                    <div class="result-card">
+                        <h3>舌诊分析结果</h3>
+                        <div class="result-content" id="tongueResultContent"></div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(1)">
+                            <span class="btn-icon">←</span> 上一步
+                        </button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">
+                            下一步：问诊 <span class="btn-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3: 问诊 -->
+            <section class="diagnosis-step" id="step3" style="display:none;">
+                <div class="step-header">
+                    <h2>问诊</h2>
+                    <p class="subtitle">请用语音描述您的症状，系统将智能追问补充信息</p>
+                </div>
+
+                <!-- 阶段A: 症状描述 -->
+                <div class="inquiry-phase" id="inquiryPhaseA">
+                    <h3>阶段一：描述症状</h3>
+                    <p class="phase-hint">请在下方输入您的不适症状、持续时间、伴随感受等</p>
+
+                    <div class="symptom-input-area">
+                        <textarea id="symptomInput" rows="8" placeholder="请详细描述您的症状，例如：&#10;&#10;• 主要不适：胃脘胀痛、隐痛、刺痛等&#10;• 持续时间：2周前开始&#10;• 伴随症状：食欲减退、反酸、嗳气等&#10;• 寒热感觉：怕冷还是怕热&#10;• 饮食情况：胃口如何、喜冷食还是热食&#10;• 睡眠情况：失眠、多梦、易醒等&#10;• 二便情况：大便干/溏、小便颜色等&#10;• 情志状态：焦虑、抑郁、易怒等"></textarea>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn btn-primary" onclick="submitSymptoms()">
+                            <span class="btn-icon">🤖</span> 生成智能追问
+                        </button>
+                    </div>
+
+                    <div class="analysis-loading" id="asrLoading" style="display:none;">
+                        <div class="loading-spinner"></div>
+                        <p>正在整理问诊信息，请稍候...</p>
+                    </div>
+
+                    <div class="transcription-result" id="transcriptionResult" style="display:none;">
+                        <h4>结构化问诊记录</h4>
+                        <textarea id="organizedText" rows="8" placeholder="结构化问诊内容..."></textarea>
+                        <div class="step-actions">
+                            <button class="btn btn-secondary" onclick="editSymptoms()">
+                                <span class="btn-icon">✏️</span> 修改症状描述
+                            </button>
+                            <button class="btn btn-primary" onclick="generateFollowup()">
+                                <span class="btn-icon">🤖</span> 生成智能追问
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 阶段B: 智能追问 -->
+                <div class="inquiry-phase" id="inquiryPhaseB" style="display:none;">
+                    <h3>阶段二：智能追问</h3>
+                    <p class="phase-hint">系统根据您的描述生成了追问，请依次回答</p>
+
+                    <div class="followup-list" id="followupList">
+                        <!-- 追问卡片由JS动态生成 -->
+                    </div>
+
+                    <div class="analysis-loading" id="followupLoading" style="display:none;">
+                        <div class="loading-spinner"></div>
+                        <p>正在生成追问...</p>
+                    </div>
+
+                    <div class="step-actions" id="inquiryCompleteActions" style="display:none;">
+                        <button class="btn btn-secondary" onclick="skipFollowup()">
+                            跳过追问
+                        </button>
+                        <button class="btn btn-primary" onclick="completeInquiry()">
+                            完成问诊 <span class="btn-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4: 综合确认 -->
+            <section class="diagnosis-step" id="step4" style="display:none;">
+                <div class="step-header">
+                    <h2>综合确认</h2>
+                    <p class="subtitle">请确认以下信息，补充必要字段后提交到AI诊疗系统</p>
+                </div>
+
+                <div class="review-section">
+                    <!-- 望诊结果汇总 -->
+                    <div class="review-card collapsible">
+                        <div class="review-card-header" onclick="toggleCollapse(this)">
+                            <h3>望脸色分析</h3>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div class="review-card-body">
+                            <div class="result-content" id="reviewFaceResult"></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card collapsible">
+                        <div class="review-card-header" onclick="toggleCollapse(this)">
+                            <h3>舌诊分析</h3>
+                            <span class="collapse-icon">▼</span>
+                        </div>
+                        <div class="review-card-body">
+                            <div class="result-content" id="reviewTongueResult"></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <h3>问诊记录</h3>
+                        <textarea id="reviewInquiryText" rows="8" placeholder="问诊内容..."></textarea>
+                    </div>
+
+                    <!-- 补充信息表单 -->
+                    <div class="review-form">
+                        <div class="form-group">
+                            <label for="reviewDiseaseName">
+                                <span class="label-icon">🏷️</span> 现代病名（选填）
+                            </label>
+                            <input type="text" id="reviewDiseaseName" placeholder="例如：慢性胃炎、高血压、失眠等（可留空，AI将自动分析）">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reviewSpecialConditions">
+                                <span class="label-icon">⚠️</span> 特殊情况（选填）
+                            </label>
+                            <textarea id="reviewSpecialConditions" rows="2" placeholder="妊娠、哺乳期、肝肾功能不全、药物过敏史等"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn btn-secondary" onclick="goToStep(3)">
+                            <span class="btn-icon">←</span> 返回修改
+                        </button>
+                        <button class="btn btn-primary btn-submit" id="finalSubmitBtn" onclick="handleFinalSubmit()">
+                            <span class="btn-icon">🚀</span> 提交到AI诊疗系统
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 进度显示区 -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <div class="section-header">
+                    <h2>AI诊疗进行中</h2>
+                    <p class="subtitle">多个智能体正在协同分析...请耐心等待5-10分钟</p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-item" id="progress1">
+                        <div class="progress-icon">🔍</div>
+                        <div class="progress-content">
+                            <h3>中医辨证分析</h3>
+                            <p>八纲、六经、卫气营血、脏腑辨证</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress2">
+                        <div class="progress-icon">📚</div>
+                        <div class="progress-content">
+                            <h3>古籍病案检索</h3>
+                            <p>汉唐至民国历代医案分析</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress3">
+                        <div class="progress-icon">🔬</div>
+                        <div class="progress-content">
+                            <h3>现代文献分析</h3>
+                            <p>CNKI核心期刊文献查询</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress4">
+                        <div class="progress-icon">💊</div>
+                        <div class="progress-content">
+                            <h3>经方大师开方</h3>
+                            <p>经方选择与剂量换算</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress5">
+                        <div class="progress-icon">⚕️</div>
+                        <div class="progress-content">
+                            <h3>药剂师审方</h3>
+                            <p>用药安全审核</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress6">
+                        <div class="progress-icon">🏃</div>
+                        <div class="progress-content">
+                            <h3>康复理疗方案</h3>
+                            <p>针灸、推拿、食疗建议</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                    <div class="progress-item" id="progress7">
+                        <div class="progress-icon">📄</div>
+                        <div class="progress-content">
+                            <h3>生成诊疗报告</h3>
+                            <p>整合分析结果</p>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 结果展示区 -->
+            <section class="result-section" id="resultSection" style="display: none;">
+                <div class="section-header">
+                    <h2>诊疗分析报告</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="toggleView('detail')">
+                            <span class="btn-icon">📊</span> 详细数据
+                        </button>
+                        <button class="btn btn-secondary" onclick="toggleView('report')">
+                            <span class="btn-icon">📄</span> 完整报告
+                        </button>
+                        <button class="btn btn-primary" onclick="exportReport()">
+                            <span class="btn-icon">💾</span> 导出报告
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareReport()">
+                            <span class="btn-icon">🔗</span> 分享
+                        </button>
+                    </div>
+                </div>
+
+                <div id="detailView" class="result-content">
+                    <div class="result-tabs">
+                        <button class="tab-btn active" onclick="switchTab('diagnosis')">中医辨证</button>
+                        <button class="tab-btn" onclick="switchTab('ancient')">古籍病案</button>
+                        <button class="tab-btn" onclick="switchTab('modern')">现代文献</button>
+                        <button class="tab-btn" onclick="switchTab('prescription')">处方用药</button>
+                        <button class="tab-btn" onclick="switchTab('review')">审方结果</button>
+                        <button class="tab-btn" onclick="switchTab('rehab')">康复理疗</button>
+                    </div>
+                    <div class="tab-content">
+                        <div id="diagnosis-tab" class="tab-pane active"></div>
+                        <div id="ancient-tab" class="tab-pane"></div>
+                        <div id="modern-tab" class="tab-pane"></div>
+                        <div id="prescription-tab" class="tab-pane"></div>
+                        <div id="review-tab" class="tab-pane"></div>
+                        <div id="rehab-tab" class="tab-pane"></div>
+                    </div>
+                </div>
+
+                <div id="reportView" class="result-content" style="display: none;">
+                    <div class="report-container" id="finalReport"></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 中医智能诊疗系统 | AI望诊问诊 | 仅供学习研究使用，不作为医疗诊断依据</p>
+        </div>
+    </footer>
+
+    <script src="/static/ai-diagnosis.js"></script>
+</body>
+</html>
