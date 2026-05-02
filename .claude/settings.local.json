@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:platform.xiaomi.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:open.bigmodel.cn)",
+      "WebFetch(domain:mistral.ai)",
+      "WebFetch(domain:openrouter.ai)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('backend/main.py'\\).read\\(\\)\\); print\\('main.py syntax OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('backend/multimodal.py'\\).read\\(\\)\\); print\\('multimodal.py syntax OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('backend/prompts_multimodal.py'\\).read\\(\\)\\); print\\('prompts_multimodal.py syntax OK'\\)\")",
+      "Bash(./venv/Scripts/python.exe -c \"import ast; ast.parse\\(open\\('backend/main.py', encoding='utf-8'\\).read\\(\\)\\); print\\('main.py OK'\\)\")",
+      "Bash(./venv/Scripts/python.exe -c \"import ast; ast.parse\\(open\\('backend/multimodal.py', encoding='utf-8'\\).read\\(\\)\\); print\\('multimodal.py OK'\\)\")",
+      "Bash(./venv/Scripts/python.exe -c \"import ast; ast.parse\\(open\\('backend/prompts_multimodal.py', encoding='utf-8'\\).read\\(\\)\\); print\\('prompts_multimodal.py OK'\\)\")",
+      "Bash(./venv/Scripts/python.exe backend/main.py)",
+      "Bash(curl -s http://localhost:8000/api/health)",
+      "Bash(curl -s -X POST http://localhost:8000/api/analyze-tongue -H \"Content-Type: application/json\" -d '{\"image\":\"test\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/api/transcribe-audio -H \"Content-Type: application/json\" -d '{\"audio\":\"dGVzdA==\",\"format\":\"webm\"}')",
+      "Bash(curl -s -X POST http://localhost:8000/api/generate-followup -H \"Content-Type: application/json\" -d '{\"organized_text\":\"test\"}')",
+      "Bash(python -m json.tool)",
+      "Bash(curl *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(python -c \"import os; print\\('ui/dist path:', os.path.join\\(os.path.dirname\\(os.path.dirname\\(os.path.abspath\\('main.py'\\)\\)\\), 'ui', 'dist'\\)\\); print\\('exists:', os.path.exists\\(os.path.join\\(os.path.dirname\\(os.path.dirname\\(os.path.abspath\\('main.py'\\)\\)\\), 'ui', 'dist'\\)\\)\\)\")",
+      "Bash(tasklist)",
+      "Bash(taskkill //F //PID 13608)",
+      "Bash(taskkill //F //PID 2720)",
+      "Bash(netstat -ano)",
+      "Bash(python main.py)",
+      "Bash(git commit *)"
+    ]
+  }
+}
