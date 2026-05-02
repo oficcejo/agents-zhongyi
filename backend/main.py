@@ -370,26 +370,13 @@ async def export_report(data: dict):
 if __name__ == "__main__":
     import uvicorn
 
-    # SSL 配置（支持 HTTPS，手机摄像头需要）
-    ssl_certfile = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ssl", "cert.pem")
-    ssl_keyfile = os.path.join(os.path.dirname(os.path.dirname(__file__)), "ssl", "key.pem")
-
-    ssl_kwargs = {}
-    if os.path.exists(ssl_certfile) and os.path.exists(ssl_keyfile):
-        ssl_kwargs["ssl_certfile"] = ssl_certfile
-        ssl_kwargs["ssl_keyfile"] = ssl_keyfile
-        print(f"HTTPS 模式: https://0.0.0.0:8000")
-        print(f"手机访问: https://<你的IP>:8000/ai-diagnosis")
-    else:
-        print(f"HTTP 模式: http://0.0.0.0:8000")
-        print(f"提示: 手机摄像头需要 HTTPS，请确保 ssl/cert.pem 和 ssl/key.pem 存在")
+    print(f"HTTP 模式: http://0.0.0.0:22687")
 
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
+        port=22687,
         reload=False,
-        log_level="info",
-        **ssl_kwargs
+        log_level="info"
     )
 

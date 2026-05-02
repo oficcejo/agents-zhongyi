@@ -8,7 +8,7 @@ services:
     container_name: tcm-diagnosis-system
     image: tcm-diagnosis:latest
     ports:
-      - "8000:8000"
+      - "22687:22687"
     environment:
       # DeepSeek API 配置
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
@@ -18,7 +18,7 @@ services:
       - .env
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:22687/api/health')"]
       interval: 30s
       timeout: 10s
       retries: 3

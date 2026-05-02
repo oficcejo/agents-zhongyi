@@ -7,7 +7,7 @@ Type=simple
 User=www-data
 WorkingDirectory=/www/wwwroot/aiagents-zhongyi/backend
 Environment="PATH=/www/wwwroot/aiagents-zhongyi/venv/bin"
-ExecStart=/www/wwwroot/aiagents-zhongyi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+ExecStart=/www/wwwroot/aiagents-zhongyi/venv/bin/uvicorn main:app --host 0.0.0.0 --port 22687
 Restart=always
 RestartSec=10
 
