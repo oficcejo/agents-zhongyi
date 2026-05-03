@@ -16,7 +16,7 @@
 ---
 <img width="981" height="859" alt="image" src="https://github.com/user-attachments/assets/affd53ea-c28b-4531-b14b-f61bdf9630eb" />
 
-> ⚠️ **温馨提示**：右侧演示网站为商业版（欢迎定制），本项目演示网站为：[https://agents-zy.ws4.cn/](https://agents-zy.ws4.cn/)
+> ⚠️ **温馨提示**：右侧演示网站为本项目商业定制版本（欢迎定制），本项目演示网站为：[https://agents-zy.ws4.cn/](https://agents-zy.ws4.cn/)
 
 ### 商业版定制价格（ws3101001@126.com）
 
